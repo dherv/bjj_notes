@@ -1,6 +1,15 @@
+export interface ListItem {
+  content: String
+  note_id: Number
+}
+
 export interface INote {
-  id: number;
-  title: string;
+  title: String
+  teacher: String;
+  category: String;
+  sub_category: String;
+  comment: String;
+  items: ListItem[];
 }
 
 export interface INoteRepository {

@@ -26,6 +26,7 @@ class NotesController {
     }
 
     createNote = (request: express.Request, response: express.Response) => {
+        //TODO: refactor to serializer type to extract items
         const body: INote = request.body
         const note: INote = new Note(body);
 

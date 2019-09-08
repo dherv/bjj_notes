@@ -1,10 +1,19 @@
-import { INote } from './notes.interface';
+import { INote, ListItem } from './notes.interface';
 
 export class Note implements INote {
-    id: number
-    title: string
+    title: String
+    teacher: String;
+    category: String;
+    sub_category: String;
+    comment: String;
+    items: ListItem[];
+
     constructor(note: INote) {
-        this.id = note.id
         this.title = note.title
+        this.teacher = note.teacher;
+        this.category = note.category;
+        this.sub_category = note.sub_category;
+        this.comment = note.comment;
+        this.items = note.items;
     }
 }
