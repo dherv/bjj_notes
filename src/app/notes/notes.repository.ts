@@ -9,7 +9,7 @@ export class NoteRepository implements INoteRepository {
     }
 
     private addNoteItems(items: ListItem[], id: number) {
-        const stmt = `INSERT INTO note_items(content, note_id)  VALUES ?`
+        const stmt = `INSERT INTO note_items(number, content, note_id)  VALUES ?`
         const mapped_items = items.map(item => {
             // add FOREIGN_KEY note_id
             item.note_id = id
