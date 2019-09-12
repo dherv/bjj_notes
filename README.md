@@ -1,0 +1,29 @@
+<!-- tables memo for migrations -->
+
+CREATE TABLE locations (
+id INT AUTO_INCREMENT,
+name VARCHAR(255) NOT NULL,
+PRIMARY KEY (id)
+);
+
+CREATE TABLE clubs (
+id INT AUTO_INCREMENT,
+name VARCHAR(255) NOT NULL,
+location_id INT,
+PRIMARY KEY (id),
+FOREIGN KEY (location_id)
+REFERENCES locations (id)
+ON UPDATE RESTRICT ON DELETE CASCADE
+);
+
+CREATE TABLE teachers (
+id INT AUTO_INCREMENT,
+name VARCHAR(255) NOT NULL,
+club_id INT,
+PRIMARY KEY (id),
+FOREIGN KEY (club_id)
+REFERENCES clubs (id)
+ON UPDATE RESTRICT ON DELETE CASCADE
+);
+
+ALTER TABLE notes ADD FOREIGN KEY (`teacher_id`) REFERENCES teachers(`id`);
