@@ -28,9 +28,9 @@ class NotesController {
     createNote = (request: express.Request, response: express.Response) => {
         //TODO: refactor to serializer type to extract items
         const body: INote = request.body
-        const note: INote = new Note(body);
+        // const note: INote = new Note(body);
 
-        this.repository.add(note).then((message: string) => {
+        this.repository.add(body).then((message: string) => {
             response.send(message);
         }).catch((error: MysqlError) => response.send(error.message))
 

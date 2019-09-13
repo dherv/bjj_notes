@@ -1,14 +1,17 @@
-import { INote, INoteRepository, ListItem } from "./notes.interface";
+import { INote, INoteRepository, INoteItem } from "./notes.interface";
 import { Note } from "./notes.model"
 import { MysqlError, Connection, FieldInfo, } from "mysql";
+import { join } from "path";
 
 export class NoteRepository implements INoteRepository {
     connection: Connection
+    stmt: string
     constructor(connection: Connection) {
         this.connection = connection
+        this.stmt = ""
     }
 
-    private addNoteItems(items: ListItem[], id: number) {
+    private addNoteItems(items: INoteItem[], id: number) {
         const stmt = `INSERT INTO note_items(number, content, note_id)  VALUES ?`
         const mapped_items = items.map(item => {
             // add FOREIGN_KEY note_id
@@ -26,15 +29,38 @@ export class NoteRepository implements INoteRepository {
     }
 
     get(): Promise<INote[]> {
-        const stmt = `SELECT * FROM notes`
-        return new Promise((resolve, reject) => {
-            this.connection.query(stmt, (err: MysqlError, results: INote[], fields?: FieldInfo[]) => {
+        let stmt = `SELECT * FROM`
+        stmt += Note.with('teacher', ['name'])
+
+        // 1. get the notes with teacher 
+        const notes = new Promise((resolve: any, reject: any) => {
+            return this.connection.query(stmt, (err: MysqlError, results: INote[], fields?: FieldInfo[]) => {
                 if (err) {
                     return reject(err)
                 }
                 return resolve(results)
             })
         })
+
+        // 2. get notes with note items map into it
+        return notes.then((results: any) => {
+            return Promise.all(results.map((result: any) => {
+                return new Promise((resolve, reject) => {
+                    this.connection.query(Note.withNoteItems(result.id), (err: MysqlError, results: INoteItem[], fields?: FieldInfo[]) => {
+                        if (err) {
+                            return reject(err)
+                        }
+                        result.note_items = results
+                        return resolve(result)
+                    })
+                })
+            })
+            ).then((result: any) => {
+                console.log(result)
+                return result
+            })
+        })
+
     }
     // getById(id: number): INote | undefined {
     //      return this.noteList.find((note: INote) => note.id == id);
@@ -43,8 +69,8 @@ export class NoteRepository implements INoteRepository {
         const stmt = `INSERT INTO notes SET ?`;
 
         //TODO: refactor with serializer type
-        const items = note.items
-        delete note.items
+        const items = note.note_items
+        delete note.note_items
 
         return new Promise((resolve, reject) => {
             this.connection.query(stmt, note, (err: MysqlError | null, results: any, fields?: FieldInfo[]) => {
