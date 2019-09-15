@@ -1,29 +1,13 @@
-<!-- tables memo for migrations -->
+### Docker
 
-CREATE TABLE locations (
-id INT AUTO_INCREMENT,
-name VARCHAR(255) NOT NULL,
-PRIMARY KEY (id)
-);
+Run:
 
-CREATE TABLE clubs (
-id INT AUTO_INCREMENT,
-name VARCHAR(255) NOT NULL,
-location_id INT,
-PRIMARY KEY (id),
-FOREIGN KEY (location_id)
-REFERENCES locations (id)
-ON UPDATE RESTRICT ON DELETE CASCADE
-);
+- dev: `docker-compose up --build`
+- prod: `docker-compose -f production.yml up -d`
 
-CREATE TABLE teachers (
-id INT AUTO_INCREMENT,
-name VARCHAR(255) NOT NULL,
-club_id INT,
-PRIMARY KEY (id),
-FOREIGN KEY (club_id)
-REFERENCES clubs (id)
-ON UPDATE RESTRICT ON DELETE CASCADE
-);
+##### migrations
 
-ALTER TABLE notes ADD FOREIGN KEY (`teacher_id`) REFERENCES teachers(`id`);
+One docker up, run the followings:
+
+- dev: `docker-compose exec web yarn migrate:up -e dev`
+- prod: `docker-compose exec web yarn migrate:up -e prod`
