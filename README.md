@@ -1,29 +1,39 @@
-<!-- tables memo for migrations -->
+### Docker
 
-CREATE TABLE locations (
-id INT AUTO_INCREMENT,
-name VARCHAR(255) NOT NULL,
-PRIMARY KEY (id)
-);
+Build run:
 
-CREATE TABLE clubs (
-id INT AUTO_INCREMENT,
-name VARCHAR(255) NOT NULL,
-location_id INT,
-PRIMARY KEY (id),
-FOREIGN KEY (location_id)
-REFERENCES locations (id)
-ON UPDATE RESTRICT ON DELETE CASCADE
-);
+- dev: `docker-compose up --build`
+- prod: `docker-compose -f production.yml up -d`
+  prod: see Docker hub section
 
-CREATE TABLE teachers (
-id INT AUTO_INCREMENT,
-name VARCHAR(255) NOT NULL,
-club_id INT,
-PRIMARY KEY (id),
-FOREIGN KEY (club_id)
-REFERENCES clubs (id)
-ON UPDATE RESTRICT ON DELETE CASCADE
-);
+##### Docker hub
 
-ALTER TABLE notes ADD FOREIGN KEY (`teacher_id`) REFERENCES teachers(`id`);
+To push production image:
+`docker-compose -f production.yml build --pull --compress --parallel && docker-compose -f production.yml push`
+
+##### in EC2
+
+If not previously created, add docker-compose.yml file with following contents:
+
+```
+version: "3.7"
+services:
+  web:
+    image: dherv/bjj-notes-server
+    ports:
+      - 5000:3000
+```
+
+Next (or on each following deployment), prune the docker system to get rid of previous content and pull/build the image:
+
+```
+docker system prune
+docker-compose pull && docker-compose up --build -d
+```
+
+##### migrations
+
+One docker up, run the followings:
+
+- dev: `docker-compose exec web yarn migrate:up -e dev`
+- prod: `docker-compose exec web yarn migrate:up -e prod`
