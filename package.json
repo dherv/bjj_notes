@@ -5,10 +5,10 @@
   "license": "MIT",
   "scripts": {
     "tsc": "tsc",
-    "dev": "ts-node-dev --respawn --transpileOnly ./server.ts",
+    "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "prod": "NODE_ENV=production tsc && node ./dist/server.js",
-    "migrate:create": "db-migrate create",
-    "migrate:up": "db-migrate up"
+    "migrate:create": "db-migrate -m ./src/migrations --config ./src/database/database.json --sql-file true create",
+    "migrate:up": "db-migrate -m ./src/migrations --config ./src/database/database.json --sql-file true up"
   },
   "devDependencies": {
     "ts-node-dev": "^1.0.0-pre.42",

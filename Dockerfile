@@ -8,8 +8,8 @@ FROM build as development
 CMD ["yarn", "dev"]
 
 FROM build as production
-# copy all since the image will need the files to launch. not using git in production
-COPY . /usr/src/app
+# COPY application
+COPY . .
 CMD ["yarn", "prod"]
 
 

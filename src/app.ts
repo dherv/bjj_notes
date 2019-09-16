@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import 'dotenv/config';
-import Controller from './src/interfaces/controller.interface';
+import Controller from './interfaces/controller.interface';
 
 
 class App {
