@@ -11,3 +11,7 @@ One docker up, run the followings:
 
 - dev: `docker-compose exec web yarn migrate:up -e dev`
 - prod: `docker-compose exec web yarn migrate:up -e prod`
+
+##### Docker hub
+
+`docker-compose -f production.yml build --pull --compress --parallel && docker-compose -f production.yml push`
