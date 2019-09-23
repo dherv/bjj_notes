@@ -1,5 +1,5 @@
 import { INote, INoteRepository, INoteItem } from "./notes.interface";
-import { Note } from "./notes.model"
+import { Note, NoteModel } from "./notes.model"
 import { MysqlError, Connection, FieldInfo, } from "mysql";
 import { join } from "path";
 
@@ -12,7 +12,8 @@ export class NoteRepository implements INoteRepository {
     }
 
     private addNoteItems(items: INoteItem[], id: number) {
-        const stmt = `INSERT INTO note_items(number, content, note_id)  VALUES ?`
+        // values need to be in the same order as properties in the objects
+        const stmt = `INSERT INTO note_items(content, order_number,note_id )  VALUES ?`
         const mapped_items = items.map(item => {
             // add FOREIGN_KEY note_id
             item.note_id = id
@@ -56,8 +57,7 @@ export class NoteRepository implements INoteRepository {
                 })
             })
             ).then((result: any) => {
-                console.log(result)
-                return result
+                return result.map((item: any) => new NoteModel(item))
             })
         })
 

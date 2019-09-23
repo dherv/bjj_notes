@@ -1,17 +1,18 @@
 export interface INoteItem {
   content: String
+  order_number: Number
   note_id: Number
 }
 
 export interface INote {
-  id: Number
-  title: String
-  teacher_id: String;
-  category_id: String;
-  sub_category_id: String;
+  id: Number;
+  technique: String;
+  teacher_name: String;
+  position_id: Number;
+  type: ["Defense", "Attack", null];
   comment: String;
   note_items: INoteItem[];
-  class_date: Date
+  class_date: String
 }
 
 export interface INoteRepository {
