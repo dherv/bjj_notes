@@ -7,12 +7,17 @@ export interface INoteItem {
 export interface INote {
   id: Number;
   technique: String;
-  teacher_name: String;
+  teacher_id: Number;
   position_id: Number;
   type: ["Defense", "Attack", null];
   comment: String;
   note_items: INoteItem[];
   class_date: String
+}
+
+export interface INoteWith extends INote {
+  teacher_name?: String;
+  position_name?: String;
 }
 
 export interface INoteRepository {
