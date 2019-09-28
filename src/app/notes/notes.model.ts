@@ -8,10 +8,10 @@ export class NoteModel implements INote {
     type: ["Defense", "Attack", null];
     comment: String;
     note_items: INoteItem[];
-    class_date: String
+    class_date: Date
 
     //TODO: Add optionals teacher_id and position_id
-    constructor(note: INote) {
+    constructor(note: any) {
         this.id = note.id
         this.technique = note.technique
         this.teacher_id = note.teacher_id
@@ -19,7 +19,7 @@ export class NoteModel implements INote {
         this.type = note.type;
         this.comment = note.comment;
         this.note_items = note.note_items;
-        this.class_date = note.class_date
+        this.class_date = note.class_date.toLocaleDateString()
     }
 }
 

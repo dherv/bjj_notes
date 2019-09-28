@@ -38,7 +38,7 @@ export class NoteRepository implements INoteRepository {
         let stmt = `SELECT * FROM notes AS n`
         stmt += Note.with('teacher', ['name'])
         stmt += Note.with('position', ['name'])
-        console.log(stmt)
+
         // 1. get the notes with teacher 
         const notes = new Promise((resolve: any, reject: any) => {
             return this.connection.query(stmt, (err: MysqlError, results: INote[], fields?: FieldInfo[]) => {
@@ -79,7 +79,6 @@ export class NoteRepository implements INoteRepository {
         const items = note.note_items
         delete note.note_items
 
-        console.log({ note })
         return new Promise((resolve, reject) => {
             this.connection.query(stmt, note, (err: MysqlError | null, results: any, fields?: FieldInfo[]) => {
                 if (err) {

@@ -12,7 +12,7 @@ export interface INote {
   type: ["Defense", "Attack", null];
   comment: String;
   note_items: INoteItem[];
-  class_date: String
+  class_date: Date
 }
 
 export interface INoteWith extends INote {
