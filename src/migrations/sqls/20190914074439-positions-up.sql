@@ -5,4 +5,13 @@ CREATE TABLE positions (
   updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deleted_at TIMESTAMP DEFAULT NULL,
   PRIMARY KEY (id)
-)
+);
+INSERT INTO
+  positions(name)
+VALUES
+  ("closed guard"),
+  ("half guard"),
+  ("mount"),
+  ("knee mount"),
+  ("side control"),
+  ("back control");

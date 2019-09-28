@@ -10,3 +10,7 @@ CREATE TABLE clubs (
   SET
     NULL
 );
+INSERT INTO
+  clubs(name, location_id)
+VALUES
+  ("carpe diem", 1);

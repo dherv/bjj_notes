@@ -10,3 +10,8 @@ CREATE TABLE teachers (
   SET
     NULL
 );
+INSERT INTO
+  teachers(name, club_id)
+VALUES
+  ("thomas", 1),
+  ("masa", 1);

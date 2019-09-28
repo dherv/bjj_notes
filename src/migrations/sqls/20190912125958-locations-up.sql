@@ -6,3 +6,7 @@ CREATE TABLE locations (
   deleted_at TIMESTAMP DEFAULT NULL,
   PRIMARY KEY (id)
 );
+INSERT INTO
+  locations(name)
+VALUES
+  ("tokyo");
