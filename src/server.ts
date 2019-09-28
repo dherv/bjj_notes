@@ -1,9 +1,9 @@
 import App from './app';
-import NotesController from './src/app/notes/notes.controller';
-import { NoteRepository } from './src/app/notes/notes.repository';
+import NotesController from './app/notes/notes.controller';
+import { NoteRepository } from './app/notes/notes.repository';
 
 import * as mysql from 'mysql'
-import * as database from './src/config/database'
+import * as database from './config/database'
 
 (async () => {
   let connection;

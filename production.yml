@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+  web:
+    image: dherv/bjj-notes-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    volumes:
+      - .:/usr/src/app:cached
+      - node_modules:/usr/src/app/node_modules:cached
+    ports:
+      - 5000:3000
+    restart: always
+    env_file:
+      - ./.prod.env
+    environment:
+      - NODE_ENV=production
+volumes:
+  node_modules:
