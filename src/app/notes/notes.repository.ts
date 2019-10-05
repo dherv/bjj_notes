@@ -1,12 +1,12 @@
 import { INote, INoteRepository, INoteItem } from "./notes.interface";
 import { Note, NoteModel, NoteWith } from "./notes.model"
-import { MysqlError, Connection, FieldInfo, } from "mysql";
+import { MysqlError, Connection, FieldInfo, Pool, } from "mysql";
 import { join } from "path";
 
 export class NoteRepository implements INoteRepository {
-    connection: Connection
+    connection: Pool
     stmt: string
-    constructor(connection: Connection) {
+    constructor(connection: Pool) {
         this.connection = connection
         this.stmt = ""
     }
@@ -15,8 +15,6 @@ export class NoteRepository implements INoteRepository {
         // values need to be in the same order as properties in the objects
         console.log({ items })
         if (items.length > 0) {
-
-
             const stmt = `INSERT INTO note_items(content, order_number, note_id)  VALUES ?`
             const mapped_items = items.map(item => {
                 // add FOREIGN_KEY note_id
@@ -26,7 +24,8 @@ export class NoteRepository implements INoteRepository {
             })
             this.connection.query(stmt, [mapped_items], (err, results, fields) => {
                 if (err) {
-                    return console.error(err.message);
+                    throw err.message
+                    // return console.error(err.message);
                 }
                 // get inserted rows
                 console.log('Row inserted:' + results.affectedRows);
@@ -64,6 +63,8 @@ export class NoteRepository implements INoteRepository {
             })
             ).then((result: any) => {
                 return result.map((note: any) => new NoteWith(note))
+            }).catch(err => {
+                console.error(err)
             })
         })
 
